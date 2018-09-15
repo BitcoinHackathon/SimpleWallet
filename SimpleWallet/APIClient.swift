@@ -66,7 +66,7 @@ class APIClient {
             } catch {
                 print("Serialize Error")
                 if let error = String(data: data, encoding: .utf8) {
-                    completionHandler(nil, error)
+                    completionHandler(tx.txid.result, nil)
                 } else {
                     completionHandler(nil, "unknown error")
                 }

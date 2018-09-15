@@ -142,17 +142,11 @@ extension CodableTx {
 
 struct TransactionDetail: Codable {
     
-    let txid: String
-    let address: String?
-    let index: Int?
-    let satoshi: Int64?
-    let inputTxs: [TransactionDetail]?
+    let txid: Txid
     
-    enum CodingKeys: String, CodingKey {
-        case txid
-        case address = "addr"
-        case index = "n"
-        case satoshi = "valueSat"
-        case inputTxs = "vin"
+    struct Txid: Codable {
+        let result: String
+        let error: String?
+        let id: Int
     }
 }

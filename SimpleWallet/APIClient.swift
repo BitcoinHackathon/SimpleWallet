@@ -62,11 +62,11 @@ class APIClient {
             }
             do {
                 let tx = try JSONDecoder().decode(TransactionDetail.self, from: data)
-                completionHandler(tx.txid, nil)
+                completionHandler(tx.txid.result, nil)
             } catch {
                 print("Serialize Error")
                 if let error = String(data: data, encoding: .utf8) {
-                    completionHandler(tx.txid.result, nil)
+                    completionHandler(nil, error)
                 } else {
                     completionHandler(nil, "unknown error")
                 }

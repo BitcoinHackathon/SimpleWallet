@@ -12,20 +12,19 @@ import BitcoinKit
 struct MockPlayGround {
     func verifyScript() -> Bool {
         do {
-            let result = try MockHelper.testScriptWithSingleKey(lockScript: lockScript, unlockScriptBuilder: unlockScriptBuilder(), hashType: SighashType.BCH.ALL, key: MockKey.keyB)
+            let result = try MockHelper.verifySingleKey(lockScript: lockScript, unlockScriptBuilder: unlockScript, key: MockKey.keyB)
             return result
         } catch let error {
             print("Script fail: \(error)")
             return false
         }
     }
-
-    struct unlockScriptBuilder: SingleKeyScriptBuilder {
-        func build(with sigWithHashType: Data, key: MockKey) -> Script {
-            return try! Script()
-                .appendData(sigWithHashType)
-                .appendData(key.pubkey.raw)
-        }
+    
+    let unlockScript = { (pair: SigKeyPair) -> Script in
+        let script = try! Script()
+            .appendData(pair.sig)
+            .appendData(pair.key.pubkey.raw)
+        return script
     }
 
     var lockScript: Script {
